@@ -1,5 +1,6 @@
 package com.example.tana5915.mycontactapp;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -84,6 +85,50 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public static final String EXTRA_MESSAGE = "com.example.tana5915.mycontactapp.MESSAGE";
+    public void searchRecord(View view)
+    {
+        Log.d("MyContactApp", "MainActivity: launching SearchActivity");
+        Intent intent = new Intent(this, SearchActivity.class);
+        StringBuffer buffer  = new StringBuffer();
+        Cursor res = myDb.getAllData();
+        if (res.getCount()==0)
+        {
+            showMessage("Error", "No data found in database");
+            return;
+        }
+        while(res.moveToNext()){
+            //append result column 0,1,2,3 to the buffer- see Stringbuffer and cursor api
+            Log.d("MyContactApp", "MainActivity: viewData: appending data");
+
+           if(res.getString(1).equals(editName.getText().toString()))
+           {
+               Log.d("MyContactApp", "MainActivity: searchData: TRUE");
+
+               buffer.append("ID: " + res.getString(0));
+               buffer.append("\n");
+               buffer.append("Name: " +res.getString(1));
+               buffer.append("\n");
+               buffer.append("Address: "+res.getString(2));
+               buffer.append("\n");
+               buffer.append("PhoneNumber: " + res.getString(3));
+               buffer.append("\n");
+           }
+
+            Log.d("MyContactApp", "MainActivity: viewData: appending data done");
+
+
+
+        }
+        Log.d("MyContactApp", buffer.toString());
+
+        intent.putExtra(EXTRA_MESSAGE, buffer.toString());
+        // instead of editname pass a string buffer with all wanted names
+        startActivity(intent);
+    }
+
+
+   // private void search
 
 
 
