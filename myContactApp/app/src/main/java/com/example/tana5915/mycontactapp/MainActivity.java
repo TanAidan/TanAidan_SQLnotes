@@ -122,7 +122,14 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.d("MyContactApp", buffer.toString());
 
-        intent.putExtra(EXTRA_MESSAGE, buffer.toString());
+        if(buffer.toString()=="")
+        {
+            intent.putExtra(EXTRA_MESSAGE,"no contacts found" );
+
+        }
+        else {
+            intent.putExtra(EXTRA_MESSAGE, buffer.toString());
+        }
         // instead of editname pass a string buffer with all wanted names
         startActivity(intent);
     }
